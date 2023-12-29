@@ -1,0 +1,27 @@
+server:
+  port: 8082
+
+# spring:
+#   data:
+#     mongodb:
+#       username: ${SPRING_DATASOURCE_USERNAME}
+#       password: ${SPRING_DATASOURCE_PASSWORD}
+#       host: ${SPRING_DATASOURCE_HOST}
+#       port:  ${SPRING_DATASOURCE_PORT}
+#       database: ${SPRING_DATASOURCE_DB}
+#       authentication-database: admin
+
+spring:
+  data:
+    mongodb:
+      username: root
+      password: changemeinprod!
+      host: localhost
+      port: 27017
+      database: candlelight
+      authentication-database: admin
+  
+  graphql:
+    graphiql:
+      enabled: true
+

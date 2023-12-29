@@ -1,0 +1,105 @@
+type Query {
+    #    User queries
+    users: [User]
+    userById(userName: ID!): User
+    usersLike(userName: ID!): [User]!
+
+    #    Post queries
+    posts: [Post]
+    postsByUser(userName: String!): [Post]!
+    postsTitleLike(title: String!): [Post]!
+
+
+    #    Media queries
+    Medias(page: Int!, pageSize: Int!): [Media]!
+    MediaById (id : ID!): Media
+    MediasByPost : [Media]
+    deleteMedia(id : Int) : String!
+}
+
+type Mutation {
+    signUp(newUser: UserSignUpInput) : User!
+    createMedia(newMedia : MediaInput) : Media!
+    updateMedia(Media : MediaInput) : Media!
+    createPost(newPost : PostInput) : Post!
+}
+
+input UserSignUpInput {
+    userName: String!
+    email: String!
+    phoneNumber: String!
+    password: String!
+}
+
+input PostInput {
+    id : ID!
+    title : String!
+    content : String!
+    Tags : [String!]
+    publisher : String!
+}
+
+input MediaInput {
+    url : String!
+    type : MediaType!
+}
+
+type User {
+    userName: ID!
+    email: String!
+    phoneNumber: String!
+    joinedAt: LocalDate!
+}
+
+type Post {
+     id : ID!
+     title : String!
+     content : String!
+     publishTime :LocalDateTime!
+     Tags : [String!]
+     publisher : User!
+     comments : [Comment]
+     reactions : [PostReaction]
+     media : [Media]
+}
+
+type Comment {
+    id: ID!
+    content: String!
+    publisher: User!
+    publishedAt: LocalDateTime!
+}
+
+type PostReaction {
+    id: ID!
+    post: Post!
+    publisher: User!
+    type: ReactionType!
+}
+
+type CommentReaction {
+    id: ID!
+    comment: Comment!
+    publisher: User!
+    type: ReactionType!
+}
+
+type Media {
+    id: ID!
+    url : String!
+    type: MediaType!
+}
+
+enum ReactionType {
+    FLAME
+    SUPPORT
+    WOW
+}
+
+enum MediaType {
+    IMAGE
+    VIDEO
+}
+
+scalar LocalDate
+scalar LocalDateTime
