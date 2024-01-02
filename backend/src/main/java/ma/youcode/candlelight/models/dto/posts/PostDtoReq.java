@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 
 @Getter
 @Setter
@@ -21,8 +23,8 @@ public class PostDtoReq {
 //    private LocalDateTime publishTime;
 
     @NotNull(message = "Tags must be Not Null")
-    private String[] Tags;
+    private List<String> Tags;
 
     @NotNull(message = "Publisher must be Not Null")
-    private String publisher;
+    private Long publisher;
 }

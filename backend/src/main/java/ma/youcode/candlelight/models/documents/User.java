@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -22,10 +24,20 @@ import lombok.Setter;
 @Document(collection = "users")
 public class User {
 
+    @Transient
+    private static final String SEQUENCE_NAME = "user_sequence";
+
     @Id
+    private Long id;
+
+    @Indexed(unique = true)
     private String userName;
     private String password;
+
+    @Indexed(unique = true)
     private String email;
+
+    @Indexed(unique = true)
     private String phoneNumber;
 
     @CreatedDate
@@ -35,4 +47,8 @@ public class User {
     private List<Comment> comments;
     private List<PostReaction> Postreactions;
     private List<CommentReaction> commentReactions;
+
+    public static String getSequenceName() {
+        return SEQUENCE_NAME;
+    }
 }

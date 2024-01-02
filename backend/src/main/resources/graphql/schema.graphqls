@@ -1,3 +1,4 @@
+
 type Query {
     #    User queries
     users: [User]
@@ -6,8 +7,11 @@ type Query {
 
     #    Post queries
     posts: [Post]
-    postsByUser(userName: String!): [Post]!
-    postsTitleLike(title: String!): [Post]!
+    postsByUser(id: ID!): [Post]
+    postsTitleLike(title: String): [Post]!
+    deletePost(aLong : ID!):String!
+    PaginatePost(page : Int!, pageSize : Int!) : [Post]!
+    postById(id : ID!) : Post!
 
 
     #    Media queries
@@ -17,11 +21,30 @@ type Query {
     deleteMedia(id : Int) : String!
 }
 
+#User mutation
+
 type Mutation {
-    signUp(newUser: UserSignUpInput) : User!
-    createMedia(newMedia : MediaInput) : Media!
+    createMedia(url : String , type : MediaType) : Media!
     updateMedia(Media : MediaInput) : Media!
     createPost(newPost : PostInput) : Post!
+    updatePost(Post : PostInput, id : ID!) : Post!
+
+    signUp(newUser: UserSignUpInput) : User
+    login(user: UserLoginInput) : User
+    updateUser(id: ID!, user: UserUpdateInput) : User
+    deleteUser(id: ID!): String!
+}
+
+input UserLoginInput {
+    userName: String!
+    password: String!
+}
+
+input UserUpdateInput {
+    userName: String
+    email: String
+    phoneNumber: String
+    password: String
 }
 
 input UserSignUpInput {
@@ -32,11 +55,10 @@ input UserSignUpInput {
 }
 
 input PostInput {
-    id : ID!
     title : String!
     content : String!
-    Tags : [String!]
-    publisher : String!
+    Tags : [String]
+    publisher : ID!
 }
 
 input MediaInput {
@@ -45,22 +67,21 @@ input MediaInput {
 }
 
 type User {
-    userName: ID!
+    id: ID!
+    userName: String!
     email: String!
     phoneNumber: String!
     joinedAt: LocalDate!
 }
 
+
 type Post {
-     id : ID!
-     title : String!
-     content : String!
-     publishTime :LocalDateTime!
-     Tags : [String!]
-     publisher : User!
-     comments : [Comment]
-     reactions : [PostReaction]
-     media : [Media]
+    id : ID!
+    title : String!
+    content : String!
+    publishTime :LocalDateTime
+    Tags : [String]
+    publisher : User!
 }
 
 type Comment {
